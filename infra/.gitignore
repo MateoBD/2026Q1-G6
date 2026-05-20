@@ -1,0 +1,10 @@
+.terraform/
+*.zip
+*.tfstate
+*.tfstate.*
+*.tfvars
+!terraform.tfvars.example
+crash.log
+crash.*.log
+terraform.tfvars
+*.tfvars

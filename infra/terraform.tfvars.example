@@ -1,0 +1,21 @@
+project_name = "abricot-tp3"
+aws_region   = "us-east-1"
+
+# Optional. Leave empty to use the Terraform-managed S3 website callback URL.
+# For local smoke tests, override with "http://localhost:5173/auth/callback".
+frontend_callback_url = ""
+
+# Optional. Leave empty to skip SNS native email subscription creation.
+# If set, AWS sends a confirmation email that must be accepted manually.
+notification_email = ""
+
+postgres_db       = "abricot"
+postgres_user     = "abricot_app"
+postgres_password = "CHANGE_ME_STRONG_PASSWORD"
+
+# Normal TP3 deliverable path: final private architecture on.
+enable_full_private_stack = true
+
+# Emergency only: use true for a two-phase recovery if AWS rejects adding
+# Lambda vpc_config in the same apply as the private database stack.
+# recovery_skip_lambda_private_attachment = true
