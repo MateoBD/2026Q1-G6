@@ -12,6 +12,7 @@ from app.exceptions.errors import (
 from app.models.enums import UserRole
 from app.models.user import UserModel
 from app.repositories.user_repository import UserRepository
+from app.services.sns_user_notification_service import SnsUserNotificationService
 from app.services.user_service import UserService
 
 _PRIVILEGE_BODY_KEYS = frozenset(
@@ -42,14 +43,7 @@ def _parse_uuid(value: str | UUID | None, field: str) -> UUID:
 
 
 def _user_payload(user: UserModel) -> dict:
-    return {
-        "id": str(user.id),
-        "email": user.email,
-        "name": user.name,
-        "surname": user.surname,
-        "role": user.role.value,
-        "createdAt": user.created_at.isoformat(),
-    }
+    return user.to_dict()
 
 
 def _default_name(email: str, given_name: str | None) -> str:
@@ -187,6 +181,7 @@ class CognitoUserService:
         user = UserRepository.get_by_id(target_id)
         if not user:
             raise NotFoundError("User not found.", public_message="User not found.")
+        user = SnsUserNotificationService.refresh_subscription_status(user)
         return _user_payload(user)
 
     @staticmethod
